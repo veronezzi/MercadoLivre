@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.mercadolivre"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.mercadolivre"
@@ -48,9 +48,8 @@ android {
         }
     }
 }
-
 dependencies {
-
+    // Jetpack Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,6 +58,32 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Retrofit + Gson (para chamadas de API)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Coroutines para chamadas assíncronas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    // Navigation Component para Jetpack Compose
+    implementation("androidx.navigation:navigation-compose:2.7.2")
+
+    // Coil para carregamento de imagens
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+    // Hilt para injeção de dependências
+    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
+
+
+    // Testes
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

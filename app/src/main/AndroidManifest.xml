@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,6 +24,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".presentation.search.activity.SearchActivity"
+            android:exported="false"
+            android:label="Home actv"
+            android:theme="@style/Theme.MercadoLivre"/>
+        <activity
+            android:name=".presentation.search.activity.ResultActivity"
+            android:exported="false"
+            android:label="Home actv"
+            android:theme="@style/Theme.MercadoLivre"/>
+        <activity
+            android:name=".presentation.search.activity.ProductDetailsActivity"
+            android:exported="false"
+            android:label="Home actv"
+            android:theme="@style/Theme.MercadoLivre"/>
     </application>
 
 </manifest>
