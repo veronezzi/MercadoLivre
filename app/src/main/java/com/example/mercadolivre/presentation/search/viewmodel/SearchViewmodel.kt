@@ -24,7 +24,7 @@ class SearchViewModel : ViewModel() {
 
     fun handleAction(action: SearchAction) {
         when (action) {
-            SearchAction.OnBackClick -> {
+            SearchAction.OnButtonClick -> {
                 viewModelScope.launch {
                     _uiState.update {
                         SearchUiState(uiState = SearchEvent.NavigateToBookShelf)

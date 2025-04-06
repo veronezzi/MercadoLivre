@@ -20,11 +20,11 @@ class SearchActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            SearchScreen(
-                onAction = searchViewModel::handleAction
-            )
-        }
+//        setContent {
+//            SearchScreen(
+//                onAction = searchViewModel::handleAction
+//            )
+//        }
         setViewModelObservers()
     }
 

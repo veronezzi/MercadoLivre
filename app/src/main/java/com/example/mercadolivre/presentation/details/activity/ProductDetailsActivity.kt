@@ -23,18 +23,18 @@ class ProductDetailsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ProductDetailScreen(
-                onAction = productDetailViewModel::handleAction
-            )
+//            ProductDetailScreen(
+//                onAction = productDetailViewModel::handleAction
+//            )
         }
         setViewModelObservers()
     }
 
     private fun setViewModelObservers() {
-        productDetailViewModel.uiState
-            .onEach { uiState ->
-                uiState.uiState.let { handleEvents(it) }
-            }.launchIn(lifecycleScope)
+//        productDetailViewModel.uiState
+//            .onEach { uiState ->
+//                uiState.uiState.let { handleEvents(it) }
+//            }.launchIn(lifecycleScope)
     }
 
     private fun handleEvents(event: ProductDetailsEvent?) {

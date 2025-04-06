@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id ("kotlin-parcelize")
+
 }
 
 android {
@@ -81,6 +83,14 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.core)
+
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+
+    // Coil para carregamento de imagens
+    implementation ("io.coil-kt:coil-compose:2.4.0")
+
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
 
 
     // Testes

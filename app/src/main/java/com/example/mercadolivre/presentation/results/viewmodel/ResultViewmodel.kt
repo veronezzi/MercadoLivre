@@ -1,44 +1,41 @@
-package com.example.mercadolivre.presentation.search.viewmodel
+package com.example.mercadolivre.presentation.results.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mercadolivre.presentation.search.action.ProductDetailsAction
-import com.example.mercadolivre.presentation.search.action.ResultAction
-import com.example.mercadolivre.presentation.search.event.ProductDetailsEvent
-import com.example.mercadolivre.presentation.search.event.ResultEvent
+import com.example.mercadolivre.data.model.ProductSearch
+import com.example.mercadolivre.data.repository.ProductRepository
+import com.example.mercadolivre.domain.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ResultViewmodel : ViewModel() {
+class ResultsViewModel (
+    private val repository: ProductRepository
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ResultUiState())
-    val uiState = _uiState.asStateFlow()
+    private val _searchResults = MutableStateFlow<List<ProductSearch>>(emptyList())
+    val searchResults: StateFlow<List<ProductSearch>> = _searchResults.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error.asStateFlow()
 
     fun searchProducts(query: String) {
+        _isLoading.value = true
+        _error.value = null
+
         viewModelScope.launch {
-            // Lógica para buscar produtos
-        }
-    }
-
-    fun handleAction(action: ResultAction) {
-        when (action) {
-            ResultAction.OnBackClick -> {
-                viewModelScope.launch {
-                    _uiState.update {
-                        ResultUiState(uiState = ResultEvent.NavigateToBookShelf)
-                    }
-                }
+            try {
+                val results = repository.searchProducts(query)
+                _searchResults.value = results
+            } catch (e: Exception) {
+                _error.value = e.message ?: "Erro ao buscar produtos"
+            } finally {
+                _isLoading.value = false
             }
-
         }
     }
-
-    data class ResultUiState(
-        val uiState: ResultEvent? = null,
-        val isLoading: Boolean = false,
-        val error: String? = null
-    )
-
 }
