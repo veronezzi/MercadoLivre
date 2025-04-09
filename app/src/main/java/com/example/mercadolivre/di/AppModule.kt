@@ -27,6 +27,6 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { SearchViewModel(get(),get()) }
-    viewModel { ProductDetailsViewmodel(get(),get()) }
+    viewModel { SearchViewModel(get()) }
+    viewModel { ProductDetailsViewmodel(get()) }
 }

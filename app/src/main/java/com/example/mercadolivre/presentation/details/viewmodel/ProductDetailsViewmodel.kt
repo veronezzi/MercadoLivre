@@ -1,6 +1,5 @@
 package com.example.mercadolivre.presentation.search.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.mercadolivre.domain.usecase.GetProductByIdUseCase
 import com.example.mercadolivre.presentation.search.action.ProductDetailsAction
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.onStart
 
 class ProductDetailsViewmodel(
     private val getProductByIdUseCase: GetProductByIdUseCase,
-    private val savedStateHandle: SavedStateHandle
 ) : BaseStatefulViewModel<ProductDetailsViewState, ProductDetailsAction, ProductDetailsEvent>(
     initialState = ProductDetailsViewState()
 ) {

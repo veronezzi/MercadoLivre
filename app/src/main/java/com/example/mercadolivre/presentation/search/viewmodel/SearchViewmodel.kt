@@ -14,13 +14,11 @@ import kotlinx.coroutines.flow.onStart
 
 class SearchViewModel(
     private val searchProductsUseCase: SearchProductUseCase,
-    private val savedStateHandle: SavedStateHandle
 ) : BaseStatefulViewModel<SearchViewState, SearchAction, SearchEvent>(
     initialState = SearchViewState()
 ) {
     override fun onViewAction(action: SearchAction) {
         when (action) {
-            is SearchAction.ShowResults -> showResults()
             is SearchAction.SearchProduct -> searchProducts(action.query)
             is SearchAction.ShowProductDetails -> sendEvent(
                 SearchEvent.NavigateToProductDetails(
@@ -30,7 +28,6 @@ class SearchViewModel(
         }
     }
 
-    private fun showResults() {}
 
     fun searchProducts(query: String) {
         searchProductsUseCase(query)
