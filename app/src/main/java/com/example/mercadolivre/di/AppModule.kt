@@ -1,10 +1,12 @@
 package com.example.mercadolivre.di
 
 import com.example.mercadolivre.data.remote.RetrofitClient
-import com.example.mercadolivre.data.repository.ProductRepository
-import com.example.mercadolivre.data.repository.ProductRepositoryImpl
+import com.example.mercadolivre.data.repository.ProductDetailRepository
+import com.example.mercadolivre.data.repository.ProductDetailrepositoryImpl
+import com.example.mercadolivre.data.repository.SearchRepository
+import com.example.mercadolivre.data.repository.SearchRepositoryImpl
 import com.example.mercadolivre.domain.usecase.GetProductByIdUseCase
-import com.example.mercadolivre.presentation.results.viewmodel.ResultsViewModel
+import com.example.mercadolivre.domain.usecase.SearchProductUseCase
 import com.example.mercadolivre.presentation.search.viewmodel.ProductDetailsViewmodel
 import com.example.mercadolivre.presentation.search.viewmodel.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -15,15 +17,16 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single<ProductRepository> { ProductRepositoryImpl(get()) }
+    single<SearchRepository> { SearchRepositoryImpl(get()) }
+    single<ProductDetailRepository> { ProductDetailrepositoryImpl(get()) }
 }
 
 val useCaseModule = module {
     factory { GetProductByIdUseCase(get()) }
+    factory { SearchProductUseCase(get()) }
 }
 
 val viewModelModule = module {
-    viewModel { SearchViewModel() }
-    viewModel { ResultsViewModel(get()) }
-    viewModel { ProductDetailsViewmodel(get()) }
+    viewModel { SearchViewModel(get(),get()) }
+    viewModel { ProductDetailsViewmodel(get(),get()) }
 }

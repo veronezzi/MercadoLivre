@@ -7,8 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mercadolivre.presentation.details.compose.ProductDetailScreen
-import com.example.mercadolivre.presentation.results.compose.ResultsScreen
-import com.example.mercadolivre.presentation.search.compose.SearchScreen
+import com.example.mercadolivre.presentation.search.compose.SearchAndResultsScreen
 
 @Composable
 fun MercadoLibreNavGraph() {
@@ -16,26 +15,33 @@ fun MercadoLibreNavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Search.route
+        startDestination = Screen.Search.withArgs(false)
     ) {
-        composable(route = Screen.Search.route) {
-            SearchScreen(navController)
-        }
         composable(
-            route = Screen.Results.routeWithArgs,
-            arguments = listOf(navArgument("query") { type = NavType.StringType })
+            route = Screen.Search.routeWithArgs,
+            arguments = listOf(
+                navArgument("showResults") {
+                    type = NavType.StringType
+                    defaultValue = "false"
+                }
+            )
         ) { backStackEntry ->
-            ResultsScreen(
+            SearchAndResultsScreen(
                 navController = navController,
-                query = backStackEntry.arguments?.getString("query") ?: ""
             )
         }
+
         composable(
             route = Screen.ProductDetail.routeWithArgs,
-            arguments = listOf(navArgument("productId") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("productId") {
+                    type = NavType.StringType
+                }
+            )
         ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: ""
             ProductDetailScreen(
-                productId = backStackEntry.arguments?.getString("productId") ?: "",
+                productId = productId,
                 navController = navController
             )
         }
@@ -43,20 +49,14 @@ fun MercadoLibreNavGraph() {
 }
 
 sealed class Screen(val route: String) {
-    object Search : Screen("search")
-    object Results : Screen("results") {
-        const val routeWithArgs = "results/{query}"
-    }
-    object ProductDetail : Screen("product_detail") {
-        const val routeWithArgs = "product_detail/{productId}"
+
+    object Search : Screen("search") {
+        const val routeWithArgs = "search/{showResults}"
+        fun withArgs(showResults: Boolean) = "search/${showResults}"
     }
 
-    fun withArgs(vararg args: String): String {
-        return buildString {
-            append(route)
-            args.forEach { arg ->
-                append("/$arg")
-            }
-        }
+    object ProductDetail : Screen("product_detail") {
+        const val routeWithArgs = "product_detail/{productId}"
+        fun withArgs(productId: String) = "product_detail/$productId"
     }
 }

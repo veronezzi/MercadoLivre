@@ -18,20 +18,5 @@ class MainActivity : ComponentActivity() {
                 MercadoLibreNavGraph()
             }
         }
-
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.api.searchProducts("notebook")
-                if (response.isSuccessful) {
-                    Log.d("API_RESULT", response.body().toString())
-                } else {
-                    Log.e("API_ERROR", "Erro ${response.code()} - ${response.message()}")
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", e.message ?: "erro")
-            }
-        }
-
-
     }
 }

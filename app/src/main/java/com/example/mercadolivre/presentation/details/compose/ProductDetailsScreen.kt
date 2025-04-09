@@ -43,12 +43,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.mercadolivre.domain.model.Product
+import com.example.mercadolivre.navigation.Screen
 import com.example.mercadolivre.presentation.components.CenterLoading
 import com.example.mercadolivre.presentation.components.ErrorMessage
+import com.example.mercadolivre.presentation.search.action.ProductDetailsAction
+import com.example.mercadolivre.presentation.search.event.ProductDetailsEvent
 import com.example.mercadolivre.presentation.search.viewmodel.ProductDetailsViewmodel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
@@ -58,9 +62,16 @@ fun ProductDetailScreen(
     navController: NavController,
     viewModel: ProductDetailsViewmodel = koinViewModel()
 ) {
-    val product by viewModel.product.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val uiState by viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is ProductDetailsEvent.OnBackPressed -> navController.popBackStack()
+
+            }
+        }
+    }
 
     LaunchedEffect(productId) {
         viewModel.loadProduct(productId)
@@ -71,7 +82,7 @@ fun ProductDetailScreen(
             TopAppBar(
                 title = { Text("Detalhes do produto") },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { viewModel.onViewAction(ProductDetailsAction.OnBackPressed) }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Voltar"
@@ -89,7 +100,7 @@ fun ProductDetailScreen(
                 containerColor = Color(0xFFFEE600)
             ) {
                 Button(
-                    onClick = { /* Ação de comprar */ },
+                    onClick = { viewModel.onViewAction(ProductDetailsAction.PurchaseProduct) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
@@ -105,12 +116,19 @@ fun ProductDetailScreen(
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
             when {
-                isLoading -> CenterLoading()
-                error != null -> ErrorMessage(
-                    error = error!!,
-                    onRetry = { viewModel. loadProduct(productId) }
+                uiState.isLoading -> CenterLoading()
+                uiState.isError == true -> ErrorMessage(
+                    error = uiState.errorMessage.toString(),
+                    onRetry = {
+                        viewModel.onViewAction(
+                            ProductDetailsAction.LoadProduct(
+                                productId
+                            )
+                        )
+                    }
                 )
-                product != null -> ProductDetailContent(product!!)
+
+                uiState.productDetails != null -> ProductDetailContent(uiState.productDetails!!)
             }
         }
     }
@@ -126,7 +144,6 @@ private fun ProductDetailContent(product: Product) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        // Galeria de imagens
         HorizontalPager(
             count = product.pictures.size,
             state = pagerState,
@@ -142,7 +159,6 @@ private fun ProductDetailContent(product: Product) {
             )
         }
 
-        // Indicador de página
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,7 +166,8 @@ private fun ProductDetailContent(product: Product) {
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(product.pictures.size) { iteration ->
-                val color = if (pagerState.currentPage == iteration) Color(0xFF3483FA) else Color.LightGray
+                val color =
+                    if (pagerState.currentPage == iteration) Color(0xFF3483FA) else Color.LightGray
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
@@ -161,7 +178,6 @@ private fun ProductDetailContent(product: Product) {
             }
         }
 
-        // Informações do produto
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = product.title,

@@ -61,23 +61,15 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Retrofit + Gson (para chamadas de API)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Coroutines para chamadas assíncronas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    // Navigation Component para Jetpack Compose
     implementation("androidx.navigation:navigation-compose:2.7.2")
 
-    // Coil para carregamento de imagens
     implementation("io.coil-kt:coil-compose:2.2.2")
-
-    // Hilt para injeção de dependências
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
@@ -86,14 +78,10 @@ dependencies {
 
     implementation ("com.google.accompanist:accompanist-pager:0.28.0")
 
-    // Coil para carregamento de imagens
     implementation ("io.coil-kt:coil-compose:2.4.0")
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-
-
-    // Testes
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

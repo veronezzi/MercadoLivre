@@ -1,12 +1,14 @@
 package com.example.mercadolivre.domain.usecase
 
-import com.example.mercadolivre.data.repository.ProductRepository
+import com.example.mercadolivre.data.repository.ProductDetailRepository
 import com.example.mercadolivre.domain.model.Product
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GetProductByIdUseCase(
-    private val repository: ProductRepository
+    private val repository: ProductDetailRepository
 ) {
-    suspend operator fun invoke(productId: String): Product {
-        return repository.getProductById(productId)
+    operator fun invoke(productId: String): Flow<Product?> = flow {
+        emit(repository.getProductById(productId))
     }
 }

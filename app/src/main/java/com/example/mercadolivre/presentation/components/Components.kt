@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/mercadolivre/presentation/components/ErrorMessage.kt
 package com.example.mercadolivre.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
