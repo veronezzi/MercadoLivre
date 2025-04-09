@@ -38,6 +38,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.example.mercadolivre.navigation.Screen
 import com.example.mercadolivre.presentation.search.action.SearchAction
+import com.example.mercadolivre.ui.theme.MercadoLivreBlue
+import com.example.mercadolivre.ui.theme.MercadoLivreYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +86,7 @@ fun SearchAndResultsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFFEE600))
+                .background(MercadoLivreYellow)
                 .padding(24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -97,21 +99,34 @@ fun SearchAndResultsScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            OutlinedTextField(
-                value = query,
-                onValueChange = { query = it },
-                label = { Text("O que você está buscando?") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        if (query.isNotBlank()) {
-                            isShowingResults = true
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    label = { Text("O que você está buscando?") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MercadoLivreYellow, RoundedCornerShape(4.dp)),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        containerColor = Color.White,
+                        unfocusedBorderColor = Color.Gray,
+                        focusedBorderColor = MaterialTheme.colorScheme.background
+                    ),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            if (query.isNotBlank()) {
+                                isShowingResults = true
+                            }
                         }
-                    }
+                    ),
+                    shape = RoundedCornerShape(4.dp)
                 )
-            )
+            }
 
             Button(
                 onClick = {
@@ -121,7 +136,7 @@ fun SearchAndResultsScreen(
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3483FA),
+                    containerColor = MercadoLivreBlue,
                     contentColor = Color.White
                 )
             ) {
@@ -144,7 +159,7 @@ fun SearchAndResultsScreen(
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFFFEE600),
+                        containerColor = MercadoLivreYellow,
                         titleContentColor = Color.Black
                     )
                 )
@@ -225,8 +240,8 @@ private fun ProductItem(
             AsyncImage(
                 model = product.imageUrl,
                 contentDescription = product.name,
-                placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                error = painterResource(id = R.drawable.ic_launcher_foreground),
+                placeholder = painterResource(id = R.drawable.ic_image_place),
+                error = painterResource(id = R.drawable.ic_image_place),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
@@ -247,7 +262,7 @@ private fun ProductItem(
                     text = "R$ ${product.price}",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF3483FA)
+                    color = MercadoLivreBlue
                 )
             }
         }

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.mercadolivre.ui.theme.MercadoLivreBlue
 
 @Composable
 fun ErrorMessage(
@@ -56,7 +57,7 @@ fun ErrorMessage(
         Button(
             onClick = onRetry,
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF3483FA),
+                containerColor = MercadoLivreBlue,
                 contentColor = Color.White
             )
         ) {
@@ -71,6 +72,6 @@ fun CenterLoading() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(color = Color(0xFF3483FA))
+        CircularProgressIndicator(color = MercadoLivreBlue)
     }
 }

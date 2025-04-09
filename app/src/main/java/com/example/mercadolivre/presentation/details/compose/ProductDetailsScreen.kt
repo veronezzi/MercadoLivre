@@ -49,6 +49,8 @@ import com.example.mercadolivre.presentation.components.ErrorMessage
 import com.example.mercadolivre.presentation.search.action.ProductDetailsAction
 import com.example.mercadolivre.presentation.search.event.ProductDetailsEvent
 import com.example.mercadolivre.presentation.search.viewmodel.ProductDetailsViewmodel
+import com.example.mercadolivre.ui.theme.MercadoLivreBlue
+import com.example.mercadolivre.ui.theme.MercadoLivreYellow
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -90,14 +92,14 @@ fun ProductDetailScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFFEE600),
+                    containerColor = MercadoLivreYellow,
                     titleContentColor = Color.Black
                 )
             )
         },
         bottomBar = {
             BottomAppBar(
-                containerColor = Color(0xFFFEE600)
+                containerColor = MercadoLivreYellow
             ) {
                 Button(
                     onClick = { viewModel.onViewAction(ProductDetailsAction.PurchaseProduct) },
@@ -105,7 +107,7 @@ fun ProductDetailScreen(
                         .fillMaxWidth()
                         .padding(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF3483FA),
+                        containerColor = MercadoLivreBlue,
                         contentColor = Color.White
                     )
                 ) {
@@ -167,7 +169,7 @@ private fun ProductDetailContent(product: Product) {
         ) {
             repeat(product.pictures.size) { iteration ->
                 val color =
-                    if (pagerState.currentPage == iteration) Color(0xFF3483FA) else Color.LightGray
+                    if (pagerState.currentPage == iteration) MercadoLivreBlue else Color.LightGray
                 Box(
                     modifier = Modifier
                         .padding(2.dp)
@@ -190,7 +192,7 @@ private fun ProductDetailContent(product: Product) {
             Text(
                 text = "${product.currency} ${product.price}",
                 style = MaterialTheme.typography.headlineMedium,
-                color = Color(0xFF3483FA),
+                color = MercadoLivreBlue,
                 fontWeight = FontWeight.Bold
             )
 
@@ -203,7 +205,7 @@ private fun ProductDetailContent(product: Product) {
                         else -> Icons.Default.ArrowBack
                     },
                     contentDescription = null,
-                    tint = Color(0xFF3483FA),
+                    tint = MercadoLivreBlue,
                     modifier = Modifier.size(16.dp)
                 )
 
